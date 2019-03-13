@@ -33,5 +33,24 @@ public class AlienDictionary {
 		}
 		return null;
 	}
+	
+	public String wildcard (String p1, String p2, int i) {
+		List<WordEnhanced> paroleCoincidenti = new LinkedList<WordEnhanced>();
+		for(WordEnhanced w : dizionario) {
+			String word1 = w.getAlienWord().substring(0, i);
+			String word2 = w.getAlienWord().substring(i+1, w.getAlienWord().length()-1);
+			if(p1.compareTo(word1)==0 && p2.compareTo(word2)==0) {
+				paroleCoincidenti.add(w);
+			}
+		}
+		if(paroleCoincidenti.isEmpty()) {
+			return "Wildcard non presente!\n";
+		}
+		String result="";
+		for(WordEnhanced w : paroleCoincidenti) {
+			result+=w.getTranslation()+"\n";
+		}
+		return "Wildcards:\n"+result;
+	}
 
 }

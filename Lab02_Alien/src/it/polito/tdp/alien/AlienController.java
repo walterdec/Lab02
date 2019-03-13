@@ -46,27 +46,35 @@ public class AlienController {
     
     @FXML
     void doTranslate(ActionEvent event) {
-    	txtResult.clear();
     	String testoInserito = txtWord.getText().toLowerCase();
     	
-    	if(!testoInserito.matches("[a-zA-Z\\s]+")) {
-    		txtResult.appendText("Le parole possono contenere solo caratteri!");
+    	if(!testoInserito.matches("[a-zA-Z\\s\\?]+")) {
+    		txtResult.appendText("Le parole possono contenere solo caratteri!\n");
     		return;
     	}
     		
     	String [] testo = testoInserito.split(" ");
+    	String [] testoWildcard = testoInserito.split("\\?");
+    	
+    	if (testoWildcard.length==2) {
+    		int i = testoInserito.indexOf("?");
+    		String primaParte = testoInserito.substring(0, i);
+    		String secondaParte = testoInserito.substring(i+1, testoInserito.length()-1);
+    		txtResult.appendText(dictionary.wildcard(primaParte, secondaParte, i));
+    		return;
+    	}
     	if(testo.length==1) {
     		if(dictionary.translateWord(testo[0])== null) {
     			txtResult.appendText("Parola inesistente!\n");
     		}
     		else {
-    			txtResult.appendText(testo[0]+" =\n"+dictionary.translateWord(testo[0]));
+    			txtResult.appendText("\nTraduzioni per la parola "+testo[0]+":\n"+dictionary.translateWord(testo[0])+"\n");
     		}
     		
     	}
     	if(testo.length==2) {
     		dictionary.addWord(testo[0], testo[1]);
-    		txtResult.appendText("Traduzione aggiunta!\n"+testo[0]+"->"+testo[1]);
+    		txtResult.appendText("Traduzione aggiunta!\n"+testo[0]+"->"+testo[1]+"\n");
     	}
     	txtWord.clear();
     }
