@@ -47,20 +47,26 @@ public class AlienController {
     @FXML
     void doTranslate(ActionEvent event) {
     	txtResult.clear();
-    	String testoInserito = txtWord.getText();
+    	String testoInserito = txtWord.getText().toLowerCase();
+    	
+    	if(!testoInserito.matches("[a-zA-Z\\s]+")) {
+    		txtResult.appendText("Le parole possono contenere solo caratteri!");
+    		return;
+    	}
+    		
     	String [] testo = testoInserito.split(" ");
     	if(testo.length==1) {
     		if(dictionary.translateWord(testo[0])== null) {
     			txtResult.appendText("Parola inesistente!\n");
     		}
     		else {
-    			txtResult.appendText(testo[0]+" = "+dictionary.translateWord(testo[0]));
+    			txtResult.appendText(testo[0]+" =\n"+dictionary.translateWord(testo[0]));
     		}
     		
     	}
     	if(testo.length==2) {
     		dictionary.addWord(testo[0], testo[1]);
-    		txtResult.appendText("Traduzione aggiunta! "+testo[0]+"->"+testo[1]);
+    		txtResult.appendText("Traduzione aggiunta!\n"+testo[0]+"->"+testo[1]);
     	}
     	txtWord.clear();
     }

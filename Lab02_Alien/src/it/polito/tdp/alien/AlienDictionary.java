@@ -4,29 +4,31 @@ import java.util.*;
 
 public class AlienDictionary {
 	
-	private List<Word> dizionario = new LinkedList<Word>();
+	private List<WordEnhanced> dizionario = new LinkedList<WordEnhanced>();
 	
 	public void addWord(String alienWord, String translation) {
 		boolean parolaPresente = false;
-		Word daRimuovere = null;
-		for(Word w : dizionario) {
+		for(WordEnhanced w : dizionario) {
 			if(w.getAlienWord().compareTo(alienWord)==0) {
-				parolaPresente = true;
-				daRimuovere = w;
+				w.addTranslation(translation);
+				parolaPresente=true;
 			}
 		}
-		if(parolaPresente == true) {
-			dizionario.remove(daRimuovere);
+		if(parolaPresente == false) {
+			WordEnhanced w = new WordEnhanced(alienWord);
+			dizionario.add(w);
+			w.addTranslation(translation);
 		}
-		
-		Word nuovaParola = new Word(alienWord, translation);
-		dizionario.add(nuovaParola);
 	}
 	
 	public String translateWord(String alienWord) {
-		for(Word w : dizionario) {
+		String traduzioni="";
+		for(WordEnhanced w : dizionario) {
 			if(w.getAlienWord().compareTo(alienWord)==0) {
-				return w.getTranslation();
+				for(String t : w.getTranslation()) {
+					traduzioni+=t+"\n";
+				}
+				return traduzioni;
 			}
 		}
 		return null;
